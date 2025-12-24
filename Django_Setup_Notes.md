@@ -603,7 +603,7 @@ class Listing(models.Model):
   photo_3 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
   photo_4 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
   is_published = models.BooleanField(default=True)
-  list_date = models.DateTimeField(auto_now_add=True)
+  list_date = models.DateTimeField(auto_now_add=True) # 有D version會error你，所以要係config > settings.py set TIME_ZONE = "Asia/Hong_Kong"
   def __str__(self):
     return self.title
 ```
@@ -613,7 +613,7 @@ class Listing(models.Model):
 
 要Build App:
 ```bash
-python manage.py startapp clinic_app
+python manage.py startapp clinic_app(目標folder name)
 ```
 1. define the data structure: 暫時放listings.models.py
 ```python
@@ -719,10 +719,124 @@ Operations to perform:
 Running migrations:
   Applying clinic_app.0001_initial... OK
 
+---
+
+Checking : 
+Go to PgAdmin4,
+Schemas > Table > django_migrations
+In this case , will see : 
+app : doctors and listings
+name : both are 0001_initial
+
+---
+
+Define another class , its does not affect your class before (Optional) , under listings > models.py now
+```python
+  class Meta:
+    ordering = ['-list_date']
+    indexes = [models.Index(field = ['list_date'])]
+    def __str__(self):
+      return self.title
+```
+
+Sort by descending order now , since '-'
+-> thats mean **can not** modify in PgAdmin4
+
+Every Time need to update : 
+```
+python manage.py makemigrations
+```
+Result:
+```bash
+Migrations for 'listings':
+  listings/migrations/0002_alter_listing_options_and_more.py
+    ~ Change Meta options on listing
+    + Create index listings_li_list_da_153ce3_idx on field(s) list_date of model listing
+```
+---
+
+#### Login:
+1. 
+```bash
+python manage.py createsuperuser
+```
+2. need to add a name and password of this user
+3. email 亂打is ok
+4. go to localhost:8000/admin
+5. login
+
+Django administration 係Django Virtual Env度，唔洗自己寫
+
+**可以係session度set expiry date係幾耐**
+---
+
+將database註冊係admin度：
+back to vscode
+doctors > admin.py
+```python
+from django.contrib import admin
+from .models import Doctors
+# Register your models here.
+class DoctorsAdmin(admin.ModalAdmin):
+  list_display = 'name','email','is_mvp','hire_date'
+  list_display_links = 'name','email'
+  list_editable = 'is_mvp'
+  search_fields = 'name','email'
+  list_per_page = 25
+
+admin.site.register(Doctors,DoctorsAdmin)
+```
+---
+Go to config > settings.py
+```python
+MEDIA_ROOT = os.oath.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
+```
+
+Go to config>urls.py
+add path into 'urlpatterns'
+
+```python
+from django.contrib import admin
+from django.urls import path,include
+from django.conf.urls.static import static
+from django.conf import settings
+urlpatterns = [
+    path('',include('pages.urls',namespace='pages')),
+    path('admin/', admin.site.urls),
+    path('listings/', include('listings.urls',namespace='listings')) 
+] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = 'Clinic Administration'
+admin.site.site_title = 'Clinic Admin Portal'
+admin.site.index_template = 'Welcome to Clinic Portal'
+
+```
+
+Then go to listings > admin.py
+```python
+from django.contrib import admin
+from .models import Listing
+
+# Register your models here.
+class ListingAdmin(admin.ModelAdmin):
+  list_display = 'id','title','district','is_published','rooms','doctor',
+  list_display_links='id','title'
+  list_editable = 'is_published','rooms'
+  search_fields = 'title','district','doctor_name'
+  list_per_page=25
+
+admin.site.register(Listing,ListingAdmin)
+```
+
+Docker : https://www.portainer.io
+https://www.digitalocean.com
+
+搵食既話，相/片放：cloudinary
 
 ---
 ---
-3. Create
+1. Create
 ```python
 Read 
 Python
