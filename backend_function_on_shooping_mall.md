@@ -1,0 +1,2 @@
+1. security
+2. show the placeholder/Template , load the items from database, no need to hard code,make it dynamic but not background image , 公司logo, always change -> dynamic file put inside Media folder / not always change->static folder 
