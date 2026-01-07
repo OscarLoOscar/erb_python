@@ -309,3 +309,803 @@ def index(request):
 ```
 
 ---
+```python
+class ProductsAdmin(admin.ModelAdmin):
+  list_display = 'name','email','is_mvp','hire_date'
+  list_display_links = 'name','email'
+  list_editable = 'is_mvp',
+  search_fields = 'name',
+  list_per_page = 25
+
+admin.site.register(Product,ProductsAdmin)
+```
+
+Name | Field | Function
+|-|-|-
+list_display| Show column in /admin | 喺管理介面嘅「清單頁面」入面，你會見到邊幾條 Column
+list_display_links| on click link| 邊個column做hyperlink(不可與 list_editable 重複)
+list_editable|即時edit，唔洗去edit page|唔使撳入去 Edit 頁面，直接喺清單列表度修改資料並 Save
+search_fields|search field|頁面頂部加一個搜尋欄，search 邊個column
+list_per_page|show how many recode per page|show how many recode per page
+
+---
+TabularInline Design(睇購物車時，係想直接睇埋入面有咩貨品。你可以將 CartItem 嵌入到 Cart 嘅 Admin 頁面)
+```python
+from django.contrib import admin
+from .models import Cart
+from cartitems.models import CartItem
+
+class CartItemInline(admin,TabularInline):
+  model = CartItem
+  extra = 1 # show 1 empty line
+  autocomplete_fields = ['product']
+
+class CartAdmin(admin.ModelAdmin):
+  list_display = 'id','user','created_at','total_items'
+  inlines = [CartItemInline]
+  
+  def total_items(self,obj):
+    return obj.products.count()
+  total_items.short_description = '種類數量'
+
+admin.site.register(Cart,CartAdmin)
+```
+
+Dummy Data
+```
+https://www.lipsum.com
+```
+
+---
+02/01/2012
+Create Account : Register / Login
+Step 1. : 手動create urls.py
+Step 2. : Add path
+Step 3. : define function in views.py
+Step 4. : templates/ , create 'accounts' (follow your 'python manage.py startapp accounts' folder name)
+Step 5. : create your path function to login.html,register.html
+
+```
+https://docs.djangoproject.com/en/6.0/topics/auth/
+```
+
+user model 本身Django有
+expect use exist user model
+如果要改：
+1. extends user
+2. create another model : userprofile ,OneToMany 
+
+---
+From : 
+```html
+<li class="nav-item mr-3">
+```
+modify to 
+
+```html
+<li {% if 'register' == request.path %} class="nav-item active mr-3" {% else %} class='nav-item me-3' {% endif %}>
+```
+
+---
+放dist/login.html 同dist/register.html 入去 templates/accounts/login.html and templates/accounts/register.html 
+
+In register.html : 
+```html
+<form action="{% url 'accounts:register' %}" method = 'POST'>
+{% csrf_token %}
+```
+
+Sending Message
+```
+https://docs.djangoproject.com/en/6.0/ref/contrib/messages/
+``` 
+
+可以係settings.py打
+
+#### set success 同error : 
+
+```python
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAG = {
+    messages.ERROR: 'danger',
+    messages.SUCCESS: 'success',
+}
+```
+
+4.2 加左，
+3.2 要自己加：
+```python
+DJANGO_APPS = [
+    ...
+    'django.contrib.messages',
+]
+```
+
+than in accounts/views.py
+```python
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from django.contrib.auth.models import User
+
+def register(request):
+  if register.method == 'POST':
+    # handle registration logic here
+    first_name = request.POST['first_name']
+    last_name = request.POST['last_name']
+    username = request.POST['username']
+    email = request.POST['email']
+    password = request.POST['password']
+    password2 = request.POST['password2']
+    if password == password2:
+      if User.objects.filter(username=username).exists():
+        messages.error(request,"Username already exists.")
+        return redirect("accounts:register")
+      else:
+        if User.objects.filter(email=email).exists():
+          messages.error(request,"Email already exists.")
+          return redirect("accounts:register")
+        else:
+          user = User.objects.create_user(username=username,password=password,email=email,first_name=first_name,last_name=last_name)
+          user.save()
+          messages.success(request,'You are now registered and can login.')
+          return redirect("accounts:login")
+    else:
+      messages.error(request,'Passwords do not match')
+      return redirect("accounts:register")
+  else:
+    return render(request,'accounts/register.html')
+```
+
+---
+
+手動/templates/partials/_alert.html
+```
+https://getbootstrap.com/docs/4.1/components/alerts/
+```
+
+```html
+{% if messages %}
+{% for message in messages%}
+<div class="container" id="message">
+  <div class="alert alert-dismissible text-center alert-{{message.tags}}" role="alert">
+    <button class ="close" type="button" data-dismiss="alert">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong><!-- expression-->
+      {% if message.level =DEFAULT_MESSAGE_LEVELS.ERROR %}Error:{% else %} {{message.tags| title }}{% endif%}
+    </strong>{{message}}
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+```
+
+
+A 要 autocomplete B，B 就一定要有 search_fields。
+
+---
+05/01/2026
+Go to 
+
+```
+config/js/main.js
+```
+Add js:
+
+```html
+setTimeout(() => { // call back function
+  $('#message').fadeOut("slow"); // 比得'$' , jQuery function
+  // 3秒後漫漫消失 , bootstrap 4.2 version
+},3000);
+```
+
+---
+
+accounts/view.jpy
+```python
+def login(request):
+  if request.method == 'POST':
+    username = request.POST['username']
+    password = request.POST['password']
+    user = auth.authenticate(username=username,password=password)
+    if user is not None:
+      auth.login(request,user)
+      messages.success(request,'You are now logged in.')
+      return redirect('accounts:dashboard')
+    else:
+      messages.error(request,'Invalid credentials')
+      return redirect('accounts:login') # redirect to endpoint, don't add .html, render requires .html
+  else:
+    return render(request,'accounts/login.html')
+```
+
+--- 
+After success register and login :
+move to _navbar.html
+```html
+        <!-- logout-->
+        <li class="nav-item mr-3">
+            <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link"><!-- javascript expression , Django can use -->
+              <!-- click 條 a-link , 有post有token番backend-->
+              <i class="fas fa-sign-out-alt" aria-hidden="true"></i>logout
+            </a>
+
+            <form action="{% url 'accounts:login' %}" method="POST" id="logout">
+              <!-- 用form reason：backend 要delete token , 比番backend , 但_navbar.html not a pure html , 普通html唔可以咁打  -->
+              {% csrf_token %}
+              <input type="hidden"/> <!-- 收埋input，變hidden-->
+            </form>
+        </li>
+
+        {% else %}
+          <li {% if 'register' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}> 
+            <a class="nav-link" href="{% url 'accounts:register' %}">
+            <i class="fas fa-user-plus"></i> Register
+            </a>
+          </li>
+          <li {% if 'login' in request.path %} class="nav-item active mr-3" {% else %} class='nav-item mr-3' {% endif %}> 
+            <a class="nav-link" href="{% url 'accounts:login'%}">
+            <i class="fas fa-sign-in-alt"></i>Login</a
+          >
+          </li>
+
+          {% endif %}
+```
+
+---
+Back to iTerm2 , open new file again :
+
+```bash
+python manage.py startapp contacts
+```
+
+open and add urls.py
+```python
+from django.urls import path
+from . import views
+
+ap_name = 'contacts'  
+
+urlpatterns = [
+    path('contact', views.contacts, name='contact'),
+    path('contact/delete/<int:contact_id>', views.delete_contact, name='delete_contact'),
+    path('contact/edit/<int:contact_id>', views.edit_contact, name='edit_contact'),
+]
+```
+
+Then go to admin.py
+
+```python
+from django.db import models
+
+# Create your models here.
+class Contact(models.Model):
+  listing = models.CharField(max_length=200)
+  listing_id = models.IntegerField()
+  name = models.CharField(max_length=200)
+  email = models.EmailField()
+  phone = models.CharField(max_length=20)
+  message = models.TextField(blank = True)
+  contact_date = models.DateTimeField(auto_now_add=True)
+  user_id = models.IntegerField(blank=True, null=True)
+
+  class Meta:
+    ordering = ['-contact_date']
+    indexes = [models.Index(fields = ['contact_date'])]
+    
+    def __str__(self):
+        return self.name
+```
+
+Then go to admin.py
+
+```python
+from django.contrib import admin
+from .models import Contact
+# Register your models here.
+class ContactAdmin(admin.ModelAdmin):
+  list_display = ('id','listing','name','email','phone','contact_date')
+  list_display_links = ('id','name')
+  search_fields = ('listing','name','email','phone')
+  list_per_page = 25
+
+admin.site.register(Contact,ContactAdmin)
+```
+
+Finally :
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+---
+listings.html : 
+```html
+    </nav>
+  </div>
+</section>
+{% include 'partials/_alert.html' %}
+
+<!-- Listing -->
+<section id="listing" class="py-4">
+  <div class="container">
+```
+
+---
+06/01/2026
+accounts/views.py
+
+```python
+def dashboard(request):
+  # 一定login左，exist user， Contact searching database
+  # 點解係accounts/views.py, not contacts/views.py?
+  # Welcome {{user.first_name}} 係come from accounts/views.py
+  user_contacts = Contact.objects.all().filter(user_id=request.user.id).order_by('-contact_date')
+  # all()加唔加都得
+  context = {"contacts": user_contacts}
+  return render(request,'accounts/dashboard.html',context)
+```
+
+accounts/dashboard.html
+```html
+    {% include 'partials/_alert.html' %}
+    <section id="dashboard" class="py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            {% comment %} <h2>Welcome {{ account.name  | title }}</h2> {% endcomment %}
+            <h2>Welcome {{ user.username  | title }}</h2>
+            <!-- add for-loop @ 6/1/2026-->
+            {% if contacts%}
+            <p>Here are the clinic listings that you have inquired about</p>
+            <table class="table"> <!-- table : must have head，body -->
+              <thead>
+                <tr>
+                  <th scope="col">Clinic ID</th>
+                  <th scope="col">Clinic</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% comment %} for loop listing  {% endcomment %}
+                {% for contact in contacts %}
+                <tr>
+                  <td>{{contact.listing_id}}</td>
+                  <td>{{ contact.listing | title}}</td>
+                  <td>
+                    <a class="btn btn-light" href="{% url 'listings:listing' contact.listing_id %}">View Listing</a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <p>You have not made any inquiries yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endblock content%}
+```
+
+```html
+                  <td>
+                    <a class="btn btn-light" href="{% url 'listings:listing' contact.listing_id %}">View Listing</a>
+                    <button class="btn btn-danger" 
+                    data-url="{% url 'contacts:delete_content' contact.id %}"
+                    {% comment %} delete完要confirm {% endcomment %}
+                    data-toggle="modal" data-target="#deleteConfirmModal"
+                    data-id="{{contact.id}}"
+                    >Delete Listing</button>
+                  </td>
+```
+
+#### Django Form
+```
+https://docs.djangoproject.com/en/6.0/topics/forms/
+```
+
+---Step of this project:
+1. Doctors
+2. Listings
+3. Contacts
+4. Accounts
+---
+
+手動add a file 'forms.py' under folder 'contacts'
+
+form目的：拎野，所以用'from django import forms'，一edit就入database
+```python
+from django import forms
+from .models import Contact
+
+class ContactForm(forms.ModelForm):
+  class Meta:
+    model = Contact
+    fields = ['message']
+    # widgets可以做晒input，label個D野
+    widgets = {
+      'message': forms.Textarea(attrs = {
+        'class':'form-control',
+        'placeholder':'Enter your message here',
+        'rows':5
+      })
+    }
+```
+
+move to contact/views.py add
+
+```python
+from .forms import ContactForm
+```
+
+```python
+def edit_contact(request,contact_id):
+  contact = get_object_or_404(Contact,id=contact_id)
+  if request.method =="POST":
+    form = ContactForm(request.POST,instance=contact)
+    if form.is_valid():
+      form.save() # views.py 有save()
+    return redirect('accounts:dashboard')
+  else:
+    form=ContactForm(instance=contact)
+  # if request.method == "POST":
+  
+  return render(request,'contacts/edit_contact.html',{"form":form , "contact":contact})
+```
+
+VSCode Extension:
+Django Template
+django
+biome
+Ruff
+
+```bash
+pip install django-widget-tweaks
+```
+
+Result :
+```bash
+pip freeze
+asgiref==3.11.0
+dj-database-url==3.0.1
+Django==5.2
+django-debug-toolbar==6.1.0
+django-widget-tweaks==1.5.1
+dotenv==0.9.9
+pillow==12.0.0
+psycopg2==2.9.11
+python-dotenv==1.2.1
+sqlparse==0.5.4
+```
+
+Add tag:
+```
+https://django-taggit.readthedocs.io/en/latest/
+```
+
+```bash
+pip install django-taggit
+```
+
+Result :
+```bash
+pip freeze
+asgiref==3.11.0
+dj-database-url==3.0.1
+Django==5.2
+django-debug-toolbar==6.1.0
+django-taggit==6.1.0
+django-widget-tweaks==1.5.1
+dotenv==0.9.9
+pillow==12.0.0
+psycopg2==2.9.11
+python-dotenv==1.2.1
+sqlparse==0.5.4
+```
+
+In settings.py : 
+```python
+THIRD_PARTY_APPS = ['debug_toolbar','taggit']
+```
+
+```python
+from taggit.managers import TaggableManager
+```
+
+```python
+將
+services = models.TextField(blank=True)
+轉成
+services = TaggableManager(verbose_name="Services")
+```
+
+```python
+將
+profession = models.CharField(max_length=200,default='')
+轉成
+profession = models.ManyToManyField(Subject,blank=True)
+```
+
+Finally : 
+```python
+class Listing(models.Model):
+  doctor = models.ForeignKey(Doctor,on_delete= models.DO_NOTHING)
+  title = models.CharField(max_length=200)
+  address = models.CharField(max_length=200)
+  district = models.CharField(max_length=50,choices=district_groups_choices)# 輔助性，唔洗'make makemigrations'
+  description = models.TextField(blank=True)
+  # services = models.TextField(blank=True)
+  services = TaggableManager(verbose_name="Services")
+  service = models.IntegerField()
+  room_type = models.CharField(max_length=200,default='',choices=room_type_choices.items())
+  rooms = models.CharField(max_length=2,choices=bedroom_choices.items())
+  # profession = models.CharField(max_length=200,default='')
+  profession = models.ManyToManyField(Subject,blank=True)
+  photo_main = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  photo_1 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  photo_2 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  photo_3 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  photo_4 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  is_published = models.BooleanField(default=True)
+  list_date = models.DateTimeField(auto_now_add=True)
+  def __str__(self):
+    return self.title
+  
+  def tag_list(self):
+    return u", ".join(tag.name for tag in self.services.all())
+```
+
+---
+
+07/01/2026
+
+move to PgAdmin , take a look of **ManyToMany**
+
+```mermaid
+erDiagram
+    Doctor }o..o{ Listing : " "
+
+    Doctor {
+        int id PK
+        string name
+        file photo
+        string phone
+        string email UK
+    }
+
+    Listing {
+        int id PK
+        string title
+        string address
+        string doctor_id FK
+    }
+```
+
+Move to listings/admin.py , make a form , Many To Many
+
+```python
+from django.contrib import admin
+from .models import Listing,Subject
+from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from taggit.forms import TagWidget
+from django.db import models
+from django.forms import NumberInput
+# Register your models here.
+class ListingAdminForm(forms.ModelForm):
+  # model data field
+  profession = forms.ModelMultipleChoiceField(
+    queryset = Subject.objects.all(),
+    required=False,
+    label="Select Professionals",
+    # display, this time use 大階display
+    widget = FilteredSelectMultiple(verbose_name="Professionals",
+                                    is_stacked=False , 
+                                    attrs={'rows':'5'}
+    )
+  )
+
+  class Meta:
+    model=Listing
+    fields='__all__'
+    widgets = {"services":TagWidget()}
+  
+# modify to dropdown function
+# '__' -> double underscore -> private variable -> share def XX: (function)
+# __xyz__ -> Dunder
+# IntegerField() default 20 digits
+class ListingAdmin(admin.ModelAdmin):
+  form = ListingAdminForm
+  # admin page show 咩column
+  list_display = 'id','title','district','is_published','rooms','doctor','tag_list','display_professions'
+  # admin page 用咩做filter
+  list_filter=('doctor','services')
+  list_display_links='id','title'
+  list_editable = 'is_published','rooms'
+  search_fields = 'title','district','doctor__name','services__name','profession__name'
+  list_per_page=25
+  formfield_overrides = {
+    models.IntegerField:{
+      "widget":NumberInput(attrs={"size":"5"})
+    }
+  }
+  show_facets = admin.ShowFacets.ALWAYS
+  def get_queryset(self,request):
+    return super().get_queryset(request).prefetch_related("services","profession")
+
+  def display_professions(self,obj):
+    return ", ".join([subject.name for subject in obj.profession.all()]) or "None"
+  display_professions.short_description = "Professions"
+
+class SubjectAdmin(admin.ModelAdmin):
+  list_display = "name",
+  search_fields = "name",
+
+admin.site.register(Listing,ListingAdmin)
+admin.site.register(Subject,SubjectAdmin)
+```
+
+```python
+from django.db import models
+from doctors.models import Doctor
+from .choices import district_groups_choices,room_type_choices,bedroom_choices
+from taggit.managers import TaggableManager
+
+# Create your models here.
+class Subject(models.Model):
+    name = models.CharField(max_length=200)
+    def __str__(self):
+          return self.name
+
+class Listing(models.Model):
+  doctor = models.ForeignKey(Doctor,on_delete= models.DO_NOTHING)
+  title = models.CharField(max_length=200)
+  address = models.CharField(max_length=200)
+  district = models.CharField(max_length=50,choices=district_groups_choices)# 輔助性，唔洗'make makemigrations'
+  description = models.TextField(blank=True)
+  # services = models.TextField(blank=True)
+  services = TaggableManager(verbose_name="Services")
+  service = models.IntegerField()
+  room_type = models.CharField(max_length=200,default='',choices=room_type_choices.items())
+  rooms = models.CharField(max_length=2,choices=bedroom_choices.items())
+  # profession = models.CharField(max_length=200,default='')
+  profession = models.ManyToManyField(Subject,blank=True)
+  photo_main = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  photo_1 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  photo_2 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  photo_3 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  photo_4 = models.ImageField(upload_to = 'photos/%Y/%d',blank=True)
+  is_published = models.BooleanField(default=True)
+  list_date = models.DateTimeField(auto_now_add=True)
+  def __str__(self):
+    return self.title
+  
+  def tag_list(self):
+    # return u", ".join(tag.name.replace(" ","-") for tag in self.services.all())
+    return u", ".join(tag.slug for tag in self.services.all())
+
+  class Meta:
+    ordering = ['-list_date']
+    indexes = [models.Index(fields = ['list_date'])]
+
+    def __str__(self):
+        return self.title
+```
+
+---
+Move to templates/listing.html ,Description上面
+```html
+        <!-- profession -->
+        <div>
+        <div class="row mb-5">
+            {% comment %} h4.mr-3.text-secondary{Professions:} {% endcomment %}
+          {% comment %} <div class="col-md-4 d-flex align-items-start"> {% endcomment %}
+          <h4 class="mr-3 text-secondary">Professions:</h4>
+          {% if listing.profession.all %}
+            <ul>
+              {% for profession in listing.profession.all %}
+              <li class="mr-3">
+                <h4>{{profession.name}}</h4>
+              </li>
+              {% endfor %}
+            </ul>
+          {% comment %} follow listings/models.py field name {% endcomment %}
+          {% else %}
+            <p class="text-secondary">No Professions Listed</p>
+          {% endif %}
+        </div>
+        {% comment %} </div> {% endcomment %}
+
+        <!-- Services -->
+        <div class="row mb-5">
+          <h4 class="mr-3 text-secondary">Services :</h4>
+          {% if listings.services.all %}
+          <!-- service tag-->
+          <ul>
+            {% for service in listings.services.all %}
+            <li class="mr-3"><h4>{{service_tag.name | title}}</h4></li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <h4>No Services</h4>
+          {% endif %}
+        </div>
+      </div>
+```
+
+---
+
+Move to base.html , add line :
+```html
+<head>
+    <title>BC Health Care {% block title %}{% endblock %} </title>
+</head>
+```
+
+Then move to index.html , add line out of **block content**
+```html
+<!-- tab title-->
+<!-- block content外面加，唔好入面加-->
+{% block title %} | Welcome {% endblock %}
+<!-- index main content-->
+{% block content %} {% include 'partials/_search_form.html' %}
+```
+
+---
+Sending Email , connect Google
+```
+https://docs.djangoproject.com/en/6.0/topics/email/
+```
+
+contacts/view.py
+```python
+def contacts(request):
+  if request=="POST":
+    listing = request.POST['listing']
+    listing_id = request.POST['listing_id']
+    name = request.POST['name']
+    email = request.POST['email']
+    phone = request.POST['phone']
+    message = request.POST['message']
+    user_id = request.POST['user_id']
+    if request.user.is_authenticated:
+      has_contacted = Contact.objects.all().filter(listing_id=listing_id,user_id=user_id)
+      if has_contacted:
+        messages.error(request,'You have already made an inquiry for this listing')
+        return redirect('listing:listing', listing_id=listing_id)
+      contact = Contact(listing=listing,listing_id=listing_id,name=name,email=email,phone=phone,message=message,user_id=user_id)
+      contact.save()
+      # ==== send mail function
+      send_mail(
+          'Clinic Inquiry', # title 
+          'There has been abn inquiry for ' + listing + # content
+          ' . Sign into the admin panel for more info', # content
+          'freetousegpt@gmail.com', # from email 
+          [listing.doctor.email], # to email , need array / list
+          fail_silently=False
+      )
+      # =====
+      messages.success(request,'Your request has been submitted, a realtor will get back to you soon')
+      return redirect('listings:listing', listing_id=listing_id)
+  return render(request,'listings/listings.html')
+```
+
+Move to config/settings.py
+```python
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackup"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
+```
+
+Move to youtube.com,search 
+```
+How To Set up Gmail SMTP Server
+https://www.youtube.com/watch?v=ZfEK3WP73eY
+```

@@ -245,7 +245,7 @@ urlpatterns = [
 
 ---
 
-create a new Folder <b>templates</b> , open a new Folder <b>pages</b> under <b>templates</b> ,
+手動 create a new Folder <b>templates</b> , open a new Folder <b>pages</b> under <b>templates</b> ,
 Then open a new file named <b>index.html</b>
 copyed file , need to told Django :
 
@@ -360,7 +360,7 @@ frontend call 'assets'
 
 ---
 
-open a folder named 'static' under config , config > static
+手動 open a folder named 'static' under config , config > static
 
 under config>settings.py
 STATIC_URL 下面加
@@ -1290,7 +1290,7 @@ Add "debug_toolbar" to your INSTALLED_APPS setting:
     # ...
 ]
 
-4. Add the URLs in config urls.py
+4. Add the URLs in config/urls.py
 
 Add django-debug-toolbar’s URLs to your project’s URLconf:
 
