@@ -1109,3 +1109,80 @@ Move to youtube.com,search
 How To Set up Gmail SMTP Server
 https://www.youtube.com/watch?v=ZfEK3WP73eY
 ```
+
+```
+https://myaccount.google.com/
+```
+1. 安全性與登入
+2. 兩步驗證碼
+3. 應用程式密碼
+4. 第二步要全部tick晒
+5. 啟用兩步驗證碼
+6. search **應用程式密碼**
+
+Retail email:
+```
+https://resend.com
+```
+
+```
+https://try.mailgun.com/api-1/?utm_source=google&utm_medium=cpc&utm_campaign=APAC%20%7C%20EN%20%7C%20Brand&utm_id=21209483929&utm_content=161813825272&utm_term=mailgun&gad_source=1&gad_campaignid=21209483929&gbraid=0AAAAAofVncfJLVo3AnkzwHBEqOeqKkYtv&gclid=Cj0KCQiApfjKBhC0ARIsAMiR_Iu7YIqcIglpCW8A4shgvZQihzTf4COgSniPk1ofEISKaWpK5N445WAaAuZ3EALw_wcB
+```
+
+---
+
+```bash
+python manage.py makemigrations
+It is impossible to add a non-nullable field 'password' to user without specifying a default. This is because the database needs something to populate existing rows.
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit and manually define a default value in models.py.
+Select an option:
+```
+
+```bash
+方案 A：最快解決（唔洗理舊資料，直接重新開始）—— 最推薦
+因為你改咗 User Model 呢種核心結構，最專業嘅做法係清空重做，避免日後有奇怪嘅 migration bug。
+
+喺 Terminal 輸入 2 先退出。
+
+刪除專案資料夾入面嘅 db.sqlite3 檔案。
+
+刪除各個 App 入面 migrations/ 資料夾內除咗 __init__.py 以外嘅所有檔案（例如 0001_initial.py 等）。
+
+重新執行：
+
+python manage.py makemigrations
+
+python manage.py migrate
+
+方案 B：如果你想夾硬過咗呢關
+如果你想即場解決，可以咁做：
+
+輸入 1。
+
+佢會叫你輸入一個 Python 表達式作為預設值，輸入 'password123' (連引號)。
+
+Django 就會幫所有舊 user 暫時填住呢個密碼，然後完成 migration。
+
+⚠️ 點解方案 A 比較好？
+因為你將 User 由手寫改成 AbstractUser，底層嘅 Table 結構（例如 groups, user_permissions）發生咗翻天覆地嘅變化。
+
+如果你用方案 B 夾硬入去，有時會遇到 Table already exists 或者欄位對唔準嘅問題。真實 Project 喺開發初期，通常都會「清一次 db」嚟確保 AbstractUser 係完美註冊落資料庫。
+```
+
+---
+
+#### 徹底清空 PostgreSQL 資料庫
+PostgreSQL 唔似 SQLite 刪除一個 file 就搞掂，你需要入去資料庫刪除所有 Table。
+
+最快方法（喺 Terminal 執行）： 如果你用緊 psql 或者 Docker，最簡單係重開個 DB。如果唔想重開，請執行：
+
+```Bash
+python manage.py flush
+```
+
+---
+```
+https://getbootstrap.com/docs/4.0/getting-started/introduction/
+```
