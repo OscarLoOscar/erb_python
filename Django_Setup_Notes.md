@@ -32,7 +32,7 @@ pip list
 
 Result : 查看目前環境已安裝的套件（如 Django）
 
-2. Django 專案基礎配置安裝 **MUST HAVE**
+1. <font color=red>Django 專案基礎配置安裝 **MUST HAVE**</font>
 
 ```Bash
 pip install django python-dotenv
