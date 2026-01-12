@@ -38,12 +38,84 @@
       <button class="btn btn-outline-warning btn-lg" type="button">
         large
       </button>
-      <br/>
+      <br />
       <button class="btn btn-outline-warning btn-sm" type="button">
         small
       </button>
       <!-- btn-block:一條橫線 ,type="button", 唔關tab事:<button>,可以叫<div> -->
       <button class="btn btn-warning btn-block" type="button">warning</button>
+      <!-- state -->
+      <!-- button.btn.btn-primart[type="button"]{regular button} -->
+      <button class="btn btn-primary" type="button">regular button</button>
+      <button class="btn btn-primary active" type="button">active</button>
+      <button class="btn btn-primary disable" type="button">disable</button>
+      <button class="btn btn-primary" data-toggle="button">data-toggle</button>
+      <br />
+      <!-- .btn-group>button.btn-primary[type="button"]*3 -->
+      <!-- 有個btn-group 包住，button in div就會自動痴埋一齊 -->
+      <div class="btn-group">
+        <button class="btn-primary" type="button">left</button>
+        <button class="btn-primary" type="button">middle</button>
+        <button class="btn-primary" type="button">right</button>
+      </div>
+      <!-- toolbar : 將兩個btn-group放埋一齊-->
+      <div class="btn-toolbar">
+        <div class="btn-group mr-2">
+          <button class="btn-primary" type="button">left</button>
+          <button class="btn-primary" type="button">middle</button>
+          <button class="btn-primary" type="button">right</button>
+        </div>
+        <div class="btn-group">
+          <button class="btn-primary" type="button">left</button>
+          <button class="btn-primary" type="button">middle</button>
+          <button class="btn-primary" type="button">right</button>
+        </div>
+      </div>
+      <br />
+      <!-- vertical group-->
+      <div class="btn-group-vertical">
+        <button class="btn-primary" type="button">top</button>
+        <button class="btn-primary" type="button">middle</button>
+        <button class="btn-primary" type="button">bottom</button>
+      </div>
+      <!-- dropdowns menu-->
+      <br />
+      <br />
+      <!-- 主角 -->
+      <div class="dropdown">
+        <!-- button.btn.btn-primary.dropdown-toggle[type="button"][data-toggle="dropdown"]{My dropdown} -->
+        <!-- data-toggle = 開關-->
+        <!-- button 係輔助 -->
+        <button
+          class="btn btn-primary dropdown-toggle"
+          type="button"
+          data-toggle="dropdown"
+        >
+          My dropdown
+        </button>
+        <!-- .dropdown-menu>a.dropdown-item*3 -->
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item">Link One</a
+          ><a href="#" class="dropdown-item">Link Two</a
+          ><a href="#" class="dropdown-item">Link Three</a>
+        </div>
+      </div>
+      <!-- split dropdown-->
+      <div class="btn-group">
+        <button class="btn btn-primary" type="button">my button</button>
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          data-toggle="dropdown"
+        >
+          <span>toggle dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+          <a href="" class="dropdown-item">Link One</a>
+          <a href="" class="dropdown-item">Link Two</a>
+          <a href="" class="dropdown-item">Link Three</a>
+        </div>
+      </div>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
