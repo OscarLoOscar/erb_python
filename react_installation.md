@@ -2,7 +2,7 @@
 
 ```bash
 brew install node watchman yarn
-``` 
+```
 
 then run
 
@@ -11,9 +11,11 @@ npm create vite@latest
 ```
 
 create project
+
 ```bash
 npm create vite@latest my-react-app -- --template react
 ```
+
 **my-react-app**: your Project name
 
 **--template react**: tell the computer that you use React
@@ -46,15 +48,15 @@ Yes : Rolldown：係 Vite 團隊用 Rust 語言重寫嘅底層打包工具。佢
 
 Experimental (實驗性)：目前佢仲未係 100% 穩定。如果你係初學者，或者係想整一個用嚟做嘢嘅 Project，暫時唔好做「白老鼠」。
 
-選項|技術背景|建議對象|
--|-|-|
-No (推薦)|使用傳統的 Rollup|初學者 / 生產環境。教學多、插件支援最齊、絕對穩定。
-Yes|使用最新的 Rolldown|開發狂熱者。想幫手試 Bug 或者追求極致速度，但可能會撞到插件唔兼容。
+| 選項      | 技術背景            | 建議對象                                                            |
+| --------- | ------------------- | ------------------------------------------------------------------- |
+| No (推薦) | 使用傳統的 Rollup   | 初學者 / 生產環境。教學多、插件支援最齊、絕對穩定。                 |
+| Yes       | 使用最新的 Rolldown | 開發狂熱者。想幫手試 Bug 或者追求極致速度，但可能會撞到插件唔兼容。 |
 
 ---
- Install with npm and start now?
-│  ● Yes / ○ No
 
+Install with npm and start now?
+│ ● Yes / ○ No
 
 揀 「Yes」 定 「No」？
 揀 「Yes」 (最快)： Vite 會自動幫你行埋 npm install。你等佢行完，直接 cd my-react-app 然後 npm run dev 就可以開工。
@@ -64,9 +66,15 @@ Yes|使用最新的 Rolldown|開發狂熱者。想幫手試 Bug 或者追求極�
 推薦揀 「Yes」
 既然你係新 Mac 乜都未裝，揀 Yes 可以幫你驗證埋你個 Node.js 同 npm 係咪運作正常。
 
-Then you will see 
+Then you will see
+
 ```bash
  Scaffolding project in /Users/oscarlo/django_ecommerce/react_ecommerce...
 │
 ◇  Installing dependencies with npm...
 ```
+
+---
+
+React 用 Tailwindcss 多，唔用 bootstrap，但 bootstrap 去 Taiowind 會易 D
+`https://tailwindcss.com/`

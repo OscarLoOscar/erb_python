@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- alert -->
+      <div class="alert alert-primary">
+        <!-- strong = Bold  -->
+        <strong>Primary</strong> Blog Post Added
+      </div>
+      <div class="alert alert-danger">
+        <strong>Second</strong> Blog Post Added
+      </div>
+      <div class="alert alert-info"><strong>Third</strong> Blog Post Added</div>
+
+      <div class="alert alert-warning">
+        <strong>Forth</strong> Blog Post Added
+      </div>
+      <div class="alert alert-dark"><strong>Fifth</strong> Blog Post Added</div>
+      <!-- dismissible Alert-->
+      <div class="alert alert-primary alert-dismissible">
+        <button class="close" type="button" data-dismiss="alert">
+          &times;
+          <!-- 交叉logo -->
+        </button>
+        <strong>Primary</strong> Blog Post Added
+      </div>
+      <!-- Big Content-->
+      <div class="alert alert-success">
+        <h4 class="alert-heading">Congrats !</h4>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam natus
+          nulla officiis. Consectetur voluptatem repellendus similique quasi
+          totam, doloribus exercitationem excepturi non minima enim in ipsum
+          impedit, facilis obcaecati dolor?
+        </p>
+        <hr />
+        <p class="mb-0">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
+          laboriosam officiis repudiandae dolor, ipsam eum alias inventore
+          expedita minus molestias.
+        </p>
+      </div>
+      <!-- Progress Bar -->
+      <div class="progress">
+        <div class="progress-bar bg-info" style="width: 50%"></div>
+      </div>
+      <br />
+      <div class="progress">
+        <div class="progress-bar bg-success" style="width: 70%">70%</div>
+      </div>
+      <br />
+      <!-- height -->
+      <div class="progress" style="height: 70px">
+        <div class="progress-bar bg-success" style="width: 70%">70%</div>
+      </div>
+      <br />
+      <!-- striped -->
+      <div class="progress" style="height: 70px">
+        <div
+          class="progress-bar bg-danger progress-bar-striped"
+          style="width: 70%"
+        >
+          70%
+        </div>
+      </div>
+      <br />
+      <div class="progress" style="height: 240px">
+        <div
+          class="progress-bar bg-danger progress-bar-striped progress-bar-animated"
+          style="width: 20%"
+        >
+          20%
+        </div>
+      </div>
+      <br />
+      <div class="progress" style="height: 130px">
+        <div class="progress-bar bg-warning" style="width: 40%">40%</div>
+      </div>
+      <br />
+      <div class="progress" style="height: 70px">
+        <div
+          class="progress-bar bg-danger progress-bar-striped"
+          style="width: 30%"
+        >
+          30%
+        </div>
+        <div
+          class="progress-bar bg-waring progress-bar-striped"
+          style="width: 50%"
+        >
+          50%
+        </div>
+        <div
+          class="progress-bar bg-success progress-bar-striped"
+          style="width: 20%"
+        >
+          20%
+        </div>
+        <!-- backend 用:-->
+        <!-- <div
+          class="progress-bar bg-danger progress-bar-striped"
+          style="width: {{ progress}}%"
+        ></div> -->
+      </div>
+      <br />
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

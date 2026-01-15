@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- index入面會display幾多樣野 , 令到有關content變成一張卡片咁-->
+      <!-- basic block-->
+      <div class="card">
+        <div class="card-body">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        </div>
+      </div>
+      <br />
+      <!-- simple card -->
+      <h4>simple card</h4>
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Card Title</h4>
+          <h6 class="card-subtitle text-muted">card subtitle</h6>
+          <p class="card-text">Lorem ipsum dolor sit amet.</p>
+          <a class="btn btn-outline-primary">Read More</a>
+        </div>
+      </div>
+      <br />
+      <!-- card with image -->
+      <!-- class="card border-primary"-->
+      <div class="card" style="border-width: 10px; border-color: #000">
+        <img
+          src="https://static.wixstatic.com/media/ea1602_21b1775259144d0baa469d1f435befef~mv2.jpg/v1/fill/w_1188,h_736,al_c,q_85,enc_avif,quality_auto/ea1602_21b1775259144d0baa469d1f435befef~mv2.jpg"
+          height="300px"
+          weight="50px"
+          alt=""
+          class="card-img-top"
+        />
+        <div class="card-body">
+          <h4 class="card-title">Card Title</h4>
+          <h6 class="card-subtitle text-muted">card subtitle</h6>
+          <p class="card-text">Lorem ipsum dolor sit amet.</p>
+          <a class="btn btn-outline-primary">Read More</a>
+        </div>
+      </div>
+      <br />
+      <!-- card with header-->
+      <div class="card">
+        <div class="card-header text-center bg-warning">Card Header</div>
+        <div class="card-body">
+          <h4 class="card-title">Card Title</h4>
+          <h6 class="card-subtitle text-muted">card subtitle</h6>
+          <p class="card-text">Lorem ipsum dolor sit amet.</p>
+          <a class="btn btn-outline-primary">Read More</a>
+        </div>
+      </div>
+      <br />
+      <!-- card header footer center -->
+      <!-- 最外圍既text-center權限最大，入面set text-left，text-right都冇用-->
+      <div
+        class="card text-center"
+        style="border-width: 4px; border-color: #006600"
+      >
+        <div class="card-body">
+          <h4 class="card-title">Card Title</h4>
+          <h6 class="card-subtitle text-muted">card subtitle</h6>
+          <p class="card-text">Lorem ipsum dolor sit amet.</p>
+          <a class="btn btn-outline-primary">Read More</a>
+        </div>
+        <div class="card-footer text-muted">2 days ago</div>
+      </div>
+      <br />
+      <h3>card header footer center</h3>
+      <div
+        class="card-container"
+        style="display: flex; gap: 80px; justify-content: center"
+      >
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Card Title_A</h4>
+            <h6 class="card-subtitle text-muted">card subtitle_A</h6>
+            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <a class="btn btn-outline-primary">Read More_A</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Card Title_B</h4>
+            <h6 class="card-subtitle text-muted">card subtitle_B</h6>
+            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <a class="btn btn-outline-primary">Read More_B</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Card Title_C</h4>
+            <h6 class="card-subtitle text-muted">card subtitle_C</h6>
+            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <a class="btn btn-outline-primary">Read More_C</a>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <!-- Bootstrap version -->
+      <h2>Bootstrap version</h2>
+      <div
+        class="d-flex gap-3"
+        style="
+          display: flex;
+          gap: 20px;
+          justify-content: center;
+          border-color: #21307b;
+          flex: 1;
+        "
+      >
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Bootstrap version_A</h4>
+            <h6 class="card-subtitle text-muted">
+              Bootstrap version subtitle_A
+            </h6>
+            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <a class="btn btn-outline-primary">Read More_A</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Bootstrap version_B</h4>
+            <h6 class="card-subtitle text-muted">
+              Bootstrap version subtitle_B
+            </h6>
+            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <a class="btn btn-outline-primary">Read More_B</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">CBootstrap version_C</h4>
+            <h6 class="card-subtitle text-muted">
+              Bootstrap version subtitle_C
+            </h6>
+            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <a class="btn btn-outline-primary">Read More_C</a>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <!-- Grid version -->
+      <h2>Grid version</h2>
+      <div
+        class="d-flex gap-3"
+        style="display: flex; gap: 20px; justify-content: center"
+      >
+        <div>
+          <div
+            class="card col-md-4"
+            style="border-color: #21307b; border-width: 9px"
+          >
+            <div class="card-body">
+              <h4 class="card-title">Card Title_A</h4>
+              <h6 class="card-subtitle text-muted">card subtitle_A</h6>
+              <p class="card-text">Lorem ipsum dolor sit amet.</p>
+              <a class="btn btn-outline-primary">Read More_A</a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="card col-md-4"
+            style="border-color: #212121; border-width: 5px"
+          >
+            <div class="card-body">
+              <h4 class="card-title">Card Title_B</h4>
+              <h6 class="card-subtitle text-muted">card subtitle_B</h6>
+              <p class="card-text">Lorem ipsum dolor sit amet.</p>
+              <a class="btn btn-outline-primary">Read More_B</a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="card col-md-4"
+            style="border-color: #ff0000; border-width: 5px"
+          >
+            <div class="card-body">
+              <h4 class="card-title">Card Title_C</h4>
+              <h6 class="card-subtitle text-muted">card subtitle_C</h6>
+              <p class="card-text">Lorem ipsum dolor sit amet.</p>
+              <a class="btn btn-outline-primary">Read More_C</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <!--header with nav-->
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a href="#" class="nav-link active">Active</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link disable">Disable</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">Card Title</h4>
+          <h6 class="card-subtitle text-muted">card subtitle</h6>
+          <p class="card-text">Lorem ipsum dolor sit amet.</p>
+          <a class="btn btn-outline-primary">Read More</a>
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      <!-- image overlay-->
+      <div class="card text-white">
+        <img src="https://picsum.photos/1000/300" alt="" class="card-img" />
+        <div class="card-img-overlay">
+          <h4 class="card-title">Card Title_E</h4>
+          <h6 class="card-subtitle text-muted">card subtitle</h6>
+          <p class="card-text">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+          </p>
+          <a href="#" class="btn btn-outline-warning">Read More</a>
+        </div>
+      </div>
+      <br />
+      <br />
+      <!--background -->
+      <div class="card bg-danger text-white">
+        <div class="card-body">
+          <h4 class="card-title">Card Title</h4>
+          <h6 class="card-subtitle text-muted">card subtitle</h6>
+          <p class="card-text">Lorem ipsum dolor sit amet.</p>
+          <a class="btn btn-outline-primary">Read More</a>
+        </div>
+      </div>
+      <br />
+      <br />
+      <h4>card outline</h4>
+      <!-- card outline-->
+      <!-- <div class="card border-primary" style="border-width: 5px"> -->
+      <div class="card border-primary mb-3" style="border-width: 5px">
+        <div class="card-body">
+          <h4 class="card-title">Card Title</h4>
+          <h6 class="card-subtitle text-muted">card subtitle</h6>
+          <p class="card-text">Lorem ipsum dolor sit amet.</p>
+          <a class="btn btn-outline-primary">Read More</a>
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      <!-- Card Columns-->
+      <h4>Card Column</h4>
+      <div class="card-columns">
+        <!-- card a-->
+        <div class="card">
+          <div class="card text-white">
+            <img
+              src="https://picsum.photos/1000/300"
+              alt=""
+              class="card-img"
+              height="auto"
+              weight="auto"
+            />
+          </div>
+
+          <div class="card-body">
+            <h4 class="card-title">Card Title</h4>
+            <h6 class="card-subtitle text-muted">card subtitle</h6>
+            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <a class="btn btn-outline-primary">Read More</a>
+          </div>
+        </div>
+        <!-- card B-->
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Card Title</h4>
+            <h6 class="card-subtitle text-muted">card subtitle</h6>
+            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <a class="btn btn-outline-primary">Read More</a>
+          </div>
+        </div>
+        <!-- card image-->
+        <div class="card text-white">
+          <img src="https://picsum.photos/1000/300" alt="" class="card-img" />
+          <div class="card-img-overlay">
+            <h4 class="card-title">Card Title_ABC</h4>
+            <h6 class="card-subtitle text-muted">card subtitle</h6>
+            <p class="card-text text-warning">
+              Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Nostrum facere, quod dolor placeat accusantium
+              soluta!
+            </p>
+            <a href="#" class="btn btn-outline-warning">Read More</a>
+          </div>
+        </div>
+        <!-- card C-->
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">AAA</h4>
+            <h6 class="card-subtitle text-muted">BBB</h6>
+            <p class="card-text">
+              Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Nostrum facere, quod dolor placeat accusantium
+              soluta!
+            </p>
+            <a class="btn btn-outline-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

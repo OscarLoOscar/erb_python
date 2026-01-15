@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- container 假定打橫分12份，12個格 -->
+    <!-- 10_card.html , 分左打橫3張，佔1-4，佔5-8，佔9-12  -->
+    <!-- col-md-4 : md -> medium , md-4 -> 中size會拎4格 ; col-lg-6, large 拎6格 -->
+    <!-- sm/md/lg/xl, 加埋都要係12 -->
+    <div class="container">
+      <!-- Responsive grid -->
+      <div class="row">
+        <div
+          class="col-sm-6 col-md-8 col-lg-9 col-xl-10"
+          style="border: 1px solid #000000"
+        >
+          <ul>
+            <li>6 column on small screen</li>
+            <li>8 column on medium screen</li>
+            <li>9 column on large screen</li>
+            <li>10 column on extra large screen</li>
+          </ul>
+        </div>
+        <br />
+        <div
+          class="col-sm-6 col-md-4 col-lg-3 col-xl-2"
+          style="border: 2px solid #981212"
+        >
+          <ul>
+            <li>6 column on small screen</li>
+            <li>8 column on medium screen</li>
+            <li>9 column on large screen</li>
+            <li>10 column on extra large screen</li>
+          </ul>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div
+          class="col-sm-4 col-md-4 col-lg-3 col-xl-7"
+          style="border: 2px solid #981212"
+        >
+          <ul>
+            <li>6 column on small screen</li>
+            <li>8 column on medium screen</li>
+            <li>9 column on large screen</li>
+            <li>10 column on extra large screen</li>
+          </ul>
+        </div>
+        <div
+          class="col-sm-4 col-md-4 col-lg-7 col-xl-2"
+          style="border: 2px solid #981212"
+        >
+          <ul>
+            <li>6 column on small screen</li>
+            <li>8 column on medium screen</li>
+            <li>9 column on large screen</li>
+            <li>10 column on extra large screen</li>
+          </ul>
+        </div>
+        <div
+          class="col-sm-4 col-md-4 col-lg-2 col-xl-3"
+          style="border: 2px solid #981212"
+        >
+          <ul>
+            <li>6 column on small screen</li>
+            <li>8 column on medium screen</li>
+            <li>9 column on large screen</li>
+            <li>10 column on extra large screen</li>
+          </ul>
+        </div>
+      </div>
+      <br />
+      <!-- Equal Width-->
+      <div class="row">
+        <div class="col" style="border: 1px solid peru">Equal width_1</div>
+        <div class="col" style="border: 1px solid rgb(127, 205, 63)">
+          Equal width_2
+        </div>
+        <div class="col" style="border: 1px solid rgb(160, 205, 63)">
+          Equal width_3
+        </div>
+        <div class="col" style="border: 1px solid rgb(196, 63, 205)">
+          Equal width_4
+        </div>
+      </div>
+      <br />
+      <br />
+      <!-- class="col' , 自動計數,小D麻煩 -->
+      <!--multiple row with equal width , add div w-100 in the middle,In this case, no size,中間break左，12行平均分比2個空間-->
+      <div class="row">
+        <div class="col" style="border: 1px solid peru">Equal width_1</div>
+        <div class="col" style="border: 1px solid rgb(127, 205, 63)">
+          Equal width_2
+        </div>
+        <!-- empty container -->
+        <div class="w-100"></div>
+        <!-- empty container -->
+        <div class="col" style="border: 1px solid rgb(160, 205, 63)">
+          Equal width_3
+        </div>
+        <div class="col" style="border: 1px solid rgb(196, 63, 205)">
+          Equal width_4
+        </div>
+        <div class="col" style="border: 1px solid rgb(115, 63, 205)">
+          Equal width_5
+        </div>
+      </div>
+      <br />
+      <br />
+      <!-- auto layout-->
+      <div class="row">
+        <div class="col" style="border: 1px solid rgb(89, 205, 63)">
+          Equal width_1
+        </div>
+        <div class="col-6" style="border: 1px solid rgb(61, 139, 168)">
+          Equal width_2
+        </div>
+        <div class="col-4" style="border: 1px solid rgb(205, 63, 191)">
+          Equal width_3
+        </div>
+      </div>
+      <br />
+      <br />
+      <!-- Ordering,排次序：ordering_1 去左第2格，因為order-2-->
+      <div class="row">
+        <div class="col order-2" style="border: 1px solid peru">ordering_1</div>
+        <div class="col order-4" style="border: 1px solid rgb(127, 205, 63)">
+          ordering_2
+        </div>
+        <div class="col order-1" style="border: 1px solid rgb(160, 205, 63)">
+          ordering_3
+        </div>
+        <div class="col order-3" style="border: 1px solid rgb(196, 63, 205)">
+          ordering_4
+        </div>
+      </div>
+      <br />
+      <br />
+      <!-- offsetting , offset-md-3:移右3個開始，然後拎6格-->
+      <div class="row">
+        <div
+          class="col-md-6 offset-md-3"
+          style="border: 3px solid rgb(0, 21, 255)"
+        >
+          offset_1
+        </div>
+      </div>
+      <br />
+      <br />
+      <!-- -->
+      <div class="row">
+        <div
+          class="col-md-3 offset-md-3"
+          style="border: 3px solid rgb(0, 21, 255)"
+        >
+          offset_3
+        </div>
+        <div
+          class="col-md-3 offset-md-3"
+          style="border: 3px solid rgb(255, 0, 25)"
+        >
+          offset_3
+        </div>
+      </div>
+      <br />
+      <br />
+      <!-- nesting -->
+      <div class="row">
+        <div
+          class="col-8 col-sm-9 offset-md-3"
+          style="border: 3px solid rgb(0, 21, 255)"
+        >
+          <div class="row">
+            <div
+              class="col col-sm-3"
+              style="border: 1px solid rgb(255, 0, 174)"
+            >
+              Level 2
+            </div>
+            <div class="col col-sm-3" style="border: 1px solid rgb(9, 2, 7)">
+              Level 3
+            </div>
+            <div
+              class="col col-sm-3"
+              style="border: 1px solid rgb(241, 155, 217)"
+            >
+              Level 4
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
