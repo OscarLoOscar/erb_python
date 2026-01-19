@@ -320,3 +320,198 @@ Filter：
 `git stash apply` , `git pull`完要打，令到 working directory 可以令 file 一置
 
 `git stash apply`完，打`git stash pop` , delete `git stash` record
+
+---
+
+## 16/01/2026
+
+### Detached Head
+
+Reason of create new branch :
+for testing something : version 1 ,version 2 , Diff ppl
+
+`git checkout head-2` , 倒帶 2 個 version
+
+`git log --oneline --all --graph`, show all git tree, which branch merge to which branch
+
+Force delete branch :
+`git branch -D 'branch name'`
+
+`git branch` : show all branch
+
+reason of delete branch : 以為有 D branch 未 merge, 一下子 merge 晒落 main 就仆街
+`git branch -d 'branch name'` , result : `Deleted branch 'branch_name'`
+
+`git bisect start` , start the `bisect`
+then define node :`git bisect bad` :`status : waiting for good commit(s),bad commit know `
+
+why use `bisect` mode ? 發現呢條 branch 有 bug,但唔知邊度入黎，mark 低條 branch，再`git checkout` , finally `git bisect good 'branch number'` , result : `Bisecting: XX revisions left to test after this (roughly 5 stage)
+AAA BBB CCC DDD EEE modified `
+
+`git log --oneline --all --graph` : 個 HEAD 會去左 last commit version
+
+bad 係 last version，中間 cut 開一半，如果 define 做 good，
+再係 bad 同 define 既 good 中間再 cut 開做 bisect，再重覆呢個動作
+
+if good ,no bug : `git bisect reset`
+
+`git stash` : `Saved working directory and index state WIP on django: 'branch name' Update 'xxx.filetype'  with remote branch message`
+
+`git stash list` :
+
+---
+
+`Fast forward merge`
+init --> Main /FrontEnd , HEAD 指住 FrontEnd
+commit --> FrontEnd向前移，再commit --> FrontEnd再向前移
+
+HEAD --> Master --> Next Branch
+Next Branch --> Next Next Branch
+Feature --> Next Next Next Branch
+Next Next Next Branch --> Next Next Next Next Branch
+
+`git stash drop 0` : drop branch
+
+`git merge 'Other Branch Name'` : need switch to master branch , then `git merge 'Other Branch Name'` , other branch will merge to `master` branch.
+Result : will see Fast-Forward, then will see other file +++++-----
+
+After merge , you can delete the merge branch ,because its finish the mission : Example : erb8
+
+After delete , you can create a new branch named 'the same name' : Example : erb8
+
+`git branch erb9` --> create new branch
+do these step in `master` branch:
+`git log --oneline --all -graph` --> check all branch named
+create new file : erb11 , type : `no conflict merge demo` , main purpose : show no conflict
+`git add .`
+`git commit -m "something"`
+`git log --oneline --all --graph`
+Main 會行多一步
+
+Switch to `erb9` branch
+create new file named `erb12`,type : `demo for no conflict merge`
+show `no conflict merge` :
+`git add .`
+`git commit -m "something"`
+
+Both branch has new file : `erb9` in `master` , `erb12` in `erb9` branch
+`git log --oneline --all --graph` will show 2 line
+
+switch to `master` branch , and show `MERGE_MSG.git` : type some message :``Merge branch `demo for no conflict merge``
+
+`git merge erb9` : result : `Merge made by the 'ort` stagey
+
+---
+
+Delete `erb9` branch : `git stash drop erb9`
+Show `Conflict Merge`:
+Type `conflict merge demo at master branch` in `erb12` at `master` branch
+
+1. git add .
+2. git commit -m "create conflict demo"
+
+---
+
+後悔merge:
+`git merge --abort`
+
+`git reset`
+
+1. `git reset --HARD HARD-1` --> 去番上一步,所有file還原到merge之前:keep `git commit`
+2. `git reset --SOFT HARD-1` , --> 去番上一步，commit之前，`git add .` state
+3. `git reset --MIXED` , default state : 唔打--HARD,--SOFT
+
+4. `git reset --hard HEAD~1` (最徹底)
+   這會將所有內容還原到上一個版本
+   係上一個 commit 之後做的所有修改都會消失
+
+```
+Commit History: 回到前一格
+Staging Area (Index): 清空，回到前一格的狀態
+Working Directory: 檔案內容直接變回舊版，新增的 code 會不見
+```
+
+2. git reset --soft HEAD~1 (最溫和)
+   只會撤銷 git commit ,modified code 會keep係 Staging Area
+
+```
+Commit History: 回到前一格
+Staging Area (Index): 保留，維持在 git add 之後的狀態
+Working Directory: 保留，你的程式碼還在
+```
+
+用途： 發現 `commit message` 打錯，或者想把幾次小 commit 合併成一個大的
+
+3. git reset --mixed HEAD~1 (預設模式)
+   只打 git reset HEAD~1，預設係這個,它會撤銷 commit 和 git add
+
+```
+Commit History: 回到前一格
+Staging Area (Index): 清空，回到未 add 的狀態
+Working Directory: 保留，你的程式碼還在，但檔案會顯示為 "untracked/modified"
+```
+
+```mermaid
+graph LR
+    A[Working Directory] -- "git add" --> B[Staging Area]
+    B -- "git commit" --> C[Local Repository/HEAD]
+
+    subgraph Reset Modes
+    R1[--soft] -.-> B
+    R2[--mixed] -.-> A
+    R3[--hard] -.-> Z[已刪除/完全還原]
+    end
+
+    style R3 fill:#f96,stroke:#333
+    style R1 fill:#9f9,stroke:#333
+    style R2 fill:#99f,stroke:#333
+```
+
+| 模式    | 撤銷 Commit | 撤銷 git add (Index) | 撤銷修改 (Worktree) | 常用情境                    |
+| ------- | ----------- | -------------------- | ------------------- | --------------------------- |
+| --soft  | ✅          | ❌                   | ❌                  | 想重寫 Commit Message       |
+| --mixed | ✅          | ✅                   | ❌                  | 發現 add 錯檔案，想重新整理 |
+| --hard  | ✅          | ✅                   | ✅                  | 做壞了，想完全推倒重來      |
+
+---
+
+#### 核心區別：檔案級 vs 歷史級
+
+- git restore (檔案級後悔藥)：
+  - 對象：針對檔案。
+
+  - 目的：你想丟棄還沒 commit 的修改，或者把檔案從 Staging Area 拿出來。
+
+  - 安全性：它不會移動 HEAD 指針，不會改變 commit 歷史，相對安全。
+
+- git reset (歷史級後悔藥)：
+  - 對象：針對 Commit 歷史。
+
+  - 目的：你想讓整個專案「時光倒流」回到某個特定的 commit。
+
+  - 安全性：它會移動 HEAD 指針，直接改寫歷史。
+
+```mermaid
+graph TD
+    A[Working Directory 工作區] -- "git add" --> B[Staging Area 暫存區]
+    B -- "git commit" --> C[Local Repo 歷史紀錄]
+
+    subgraph "git restore -- 針對檔案狀態   "
+        R1[git restore file] -- "丟棄修改" --> A
+        R2[git restore --staged file] -- "移出暫存" --> B
+    end
+
+    subgraph "git reset --針對 Commit 指針"
+        RS[git reset HEAD~1] -- "移動 HEAD 位置" --> C
+    end
+
+    style R1 fill:#f9f,stroke:#333
+    style R2 fill:#f9f,stroke:#333
+    style RS fill:#9cf,stroke:#333
+```
+
+| 你的需求                           | 舊式做法 (git reset / checkout) | 新式做法 (git restore)      |
+| ---------------------------------- | ------------------------------- | --------------------------- |
+| 取消 git add (把檔案移出暫存區)    | git reset HEAD <file>           | git restore --staged <file> |
+| 丟棄工作區修改 (還原成上次 commit) | git checkout -- <file>          | git restore <file>          |
+| 回到前一個 Commit                  | git reset --soft HEAD~1         | (仍需使用 git reset)        |
