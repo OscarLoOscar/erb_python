@@ -515,3 +515,29 @@ graph TD
 | 取消 git add (把檔案移出暫存區)    | git reset HEAD <file>           | git restore --staged <file> |
 | 丟棄工作區修改 (還原成上次 commit) | git checkout -- <file>          | git restore <file>          |
 | 回到前一個 Commit                  | git reset --soft HEAD~1         | (仍需使用 git reset)        |
+
+---
+
+`Git Rebasing`
+`fast forward merge` , pointer 移去下一粒
+
+`git tab v1.0` -> version 1
+`git tab v4.0` -> version 4
+
+`git tab` -> release version
+
+`github tab != git tab`,兩者有分別
+
+---
+
+git pull :
+
+1. pull main branch
+2. pull specific branch
+   目的，令local同github同步
+   再merge
+   再git push
+
+
+---
+git fog
