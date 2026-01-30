@@ -21,8 +21,7 @@ graph TD
 
 `(add)`: 隨即你將 `add` function pass 入去頭先回傳嗰個 `counter` 度。呢一吓會產生 `inner，而呢個` `inner` 係睇到 `count=10` 嘅。
 
-**Last Step: Output 咗啲乜？
-**
+**Last Step: Output 咗啲乜？**
 最後 `print(add(1, 2))` 會喺畫面出現兩行嘢：
 
 第一行（由 `inner` 入面嘅 `print` 產生）： F`unction add called 11 times` (因為 `nonlocal count` 由 10 加咗 1，所以係 11)
@@ -40,6 +39,7 @@ graph TD
 
 ## Python Designing Pattern != Java Designing Pattern
 
+```python
 @param()
 def add(a,b=0):
 return a+b
@@ -50,3 +50,4 @@ return a\*b
 
 Ab()
 Ac() ,可以獨立改A，b,c ,factor out function
+```

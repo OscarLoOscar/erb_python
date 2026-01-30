@@ -262,6 +262,9 @@ TEMPLATES = [
       ...,
   'DIRS': [os.path.join(BASE_DIR,'templates')],
   ...
+    }
+  ]
+]
 ```
 
 After than , go to pages>views.py

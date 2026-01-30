@@ -28,6 +28,8 @@ CI/CD 自動化概念 (GitHub Actions)
   - [9. Merge Conflict (合併衝突)](#9-merge-conflict-合併衝突)
   - [10. Git Flow 關鍵角色速查表](#10-git-flow-關鍵角色速查表)
   - [11. 暫存區管理](#11-暫存區管理)
+  - [Branches](#branches)
+    - [At an introductory level, it is best to avoid workflows that lead to multiple branches, or requires merging.](#at-an-introductory-level-it-is-best-to-avoid-workflows-that-lead-to-multiple-branches-or-requires-merging)
 
 ---
 
@@ -341,3 +343,14 @@ Git Flow 核心操作：
 如果你有很多筆暫存，建議儲存時加上備註：` git stash save "正在開發登入功能，暫時停工"` 這樣你在執行 `git stash list` 時就能一眼看出哪筆是哪筆！
 
 ---
+
+### Branches
+
+#### At an introductory level, it is best to avoid workflows that lead to multiple branches, or requires merging.
+
+| 指令     | 用法                       | 用途                                     |
+| -------- | -------------------------- | ---------------------------------------- |
+| branch   | git branch                 | List branches.                           |
+| -        | git branch <branch-name>   | Create new branch <branch-name           |
+| checkout | git checkout <branch-name> | Switch to editing branch <branch-name>   |
+| merge    | git merge <branch-name>    | Merge <branch-name> into current branch. |

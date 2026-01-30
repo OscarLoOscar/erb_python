@@ -115,7 +115,7 @@ git switch -c feature/yourname-task
 ### Git:
 
 支箭綠色：working directory ,Staging Area ,Repository(local Repository) 係一樣，同一個 directory
-Working Directory(local):(untracked file) manage.py -> `git add.` ,then pass to `Staging Area`
+Working Directory(local):(untracked file) manage.py -> `git add .` ,then pass to `Staging Area`
 
 Staging Area: can `git reset` to local
 
@@ -134,7 +134,6 @@ Repository(Remote Repository):`git push` form Repository(local) to Repository(Re
 | ------ | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | clone  | git clone https://github.com/nesi/perf-training.git <br/>or <br/>git clone git@github.com:aaronwai/erb4.git | Copies a remote repository into your current directory.                                                                  |
 | init   | git init                                                                                                    | Creates a new empty repo in your current directory.                                                                      |
-|        |
 | add    | git add <file1> <file2>                                                                                     | Adds <file1> and <file2> to the staging area.                                                                            |
 | -      | git add \*.py                                                                                               | Adds all python files in the current directory to the staging area.                                                      |
 | status | git status Lists changes in working directory, and staged files.                                            |
@@ -538,6 +537,6 @@ git pull :
    再merge
    再git push
 
-
 ---
+
 git fog

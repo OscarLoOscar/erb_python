@@ -1,6 +1,6 @@
 ## Update pyenv :
 
-cd to '.pyenv'
+cd to `.pyenv`
 
 1. git pull origin master
 2. pyenv install -l

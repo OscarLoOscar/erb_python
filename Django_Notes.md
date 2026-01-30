@@ -83,20 +83,20 @@ graph TD
 2.
 
 - 核心技術亮點
-  🔧 後端配置 (Config & Settings)
+  後端配置 (Config & Settings)
   - 環境安全性：使用 .env 隱藏 SECRET_KEY 和 DATABASE_URL，避免敏感資訊流出。
   - 靜態與媒體檔案：
   - STATICFILES_DIRS 專門存放 UI 的 CSS/JS。
   - MEDIA_ROOT 存放用戶上傳的圖片（如診所照片、醫生頭像）。
   - 重要修正紀錄：在 config/urls.py 結尾必須加上 + static(settings.MEDIA_URL, ...) 否則圖片會報 404 錯誤。
-- 🏥 診所管理 (Listings App)
+- 診所管理 (Listings App)
   - 模型設計 (Model)：
     - 使用了 photo_main 及多個可選圖片欄位 (photo_1 ~ photo_4)。
     - Meta 類別中定義了 ordering = ['-list_date']，確保新診所自動排在最前面。
   - Admin 自定義：
     - list_editable：讓你不用進入編輯頁面就能直接切換「是否發佈」和「房間數量」。
     - search_fields：支援標題、行政區和醫生姓名搜索。
-- 📄 分頁與動態渲染 (Views & Templates)
+- 分頁與動態渲染 (Views & Templates)
   - 分頁器 (Paginator)：
     - 在 views.py 限制每頁顯示 3 筆資料。
     - 在 listings.html 配合 has_other_pages 邏輯，實現了包含「上一頁、下一頁、數字跳頁」的高級導航欄。
@@ -115,11 +115,9 @@ graph TD
 4. 下一步開發建議 (Future Features)
 
 - 實作 Inquiry 表單提交：
-
   - 目前 Modal 內只有 HTML form，需在 views.py 增加一個處理 POST 請求的 Function，將查詢存入新建立的 Inquiry Model。
 
 - 搜尋篩選功能 (Search Logic)：
-
   - 在 search.py 中接收 URL 參數（如 ?district=Kowloon&rooms=2），並對 Listing.objects.filter() 進行條件累加。
 
 - 用戶認證系統 (Auth)：
@@ -263,11 +261,11 @@ Example:
             )
 ```
 
-| 符號  | 邏輯     | 說明               | 例子                          |
-| ----- | -------- | ------------------ | ----------------------------- |
-| \*\*` | `\*\*    | OR (或)            | 其中一個條件成立即可          |
-| &     | AND (且) | 兩個條件都必須成立 | Q(A) & Q(B) (同一般的 filter) |
-| ~     | NOT (非) | 排除符合條件的記錄 | ~Q(A) (排除 A)                |
+| 符號 | 邏輯     | 說明               | 例子                          |
+| ---- | -------- | ------------------ | ----------------------------- |
+| \*\* | \*\*     | OR (或)            | 其中一個條件成立即可          |
+| &    | AND (且) | 兩個條件都必須成立 | Q(A) & Q(B) (同一般的 filter) |
+| ~    | NOT (非) | 排除符合條件的記錄 | ~Q(A) (排除 A)                |
 
 ---
 
@@ -302,13 +300,25 @@ def index(request):
 
 ```html
 {% for key, value in sorted_districts %}
-                  <option value="{{ key }}" {% if key == values.district %} selected {% endif %}>
-                  {{ value }}
-                  </option>
-                  {% endfor %}
+<option
+  value="{{ key }}"
+  {%
+  if
+  key=""
+  ="values.district"
+  %}
+  selected
+  {%
+  endif
+  %}
+>
+  {{ value }}
+</option>
+{% endfor %}
 ```
 
 ---
+
 ```python
 class ProductsAdmin(admin.ModelAdmin):
   list_display = 'name','email','is_mvp','hire_date'
@@ -320,16 +330,18 @@ class ProductsAdmin(admin.ModelAdmin):
 admin.site.register(Product,ProductsAdmin)
 ```
 
-Name | Field | Function
-|-|-|-
-list_display| Show column in /admin | 喺管理介面嘅「清單頁面」入面，你會見到邊幾條 Column
-list_display_links| on click link| 邊個column做hyperlink(不可與 list_editable 重複)
-list_editable|即時edit，唔洗去edit page|唔使撳入去 Edit 頁面，直接喺清單列表度修改資料並 Save
-search_fields|search field|頁面頂部加一個搜尋欄，search 邊個column
-list_per_page|show how many recode per page|show how many recode per page
+| Name               | Field                         | Function                                              |
+| ------------------ | ----------------------------- | ----------------------------------------------------- |
+| list_display       | Show column in /admin         | 喺管理介面嘅「清單頁面」入面，你會見到邊幾條 Column   |
+| list_display_links | on click link                 | 邊個column做hyperlink(不可與 list_editable 重複)      |
+| list_editable      | 即時edit，唔洗去edit page     | 唔使撳入去 Edit 頁面，直接喺清單列表度修改資料並 Save |
+| search_fields      | search field                  | 頁面頂部加一個搜尋欄，search 邊個column               |
+| list_per_page      | show how many recode per page | show how many recode per page                         |
 
 ---
+
 TabularInline Design(睇購物車時，係想直接睇埋入面有咩貨品。你可以將 CartItem 嵌入到 Cart 嘅 Admin 頁面)
+
 ```python
 from django.contrib import admin
 from .models import Cart
@@ -343,7 +355,7 @@ class CartItemInline(admin,TabularInline):
 class CartAdmin(admin.ModelAdmin):
   list_display = 'id','user','created_at','total_items'
   inlines = [CartItemInline]
-  
+
   def total_items(self,obj):
     return obj.products.count()
   total_items.short_description = '種類數量'
@@ -352,11 +364,13 @@ admin.site.register(Cart,CartAdmin)
 ```
 
 Dummy Data
+
 ```
 https://www.lipsum.com
 ```
 
 ---
+
 02/01/2012
 Create Account : Register / Login
 Step 1. : 手動create urls.py
@@ -372,37 +386,45 @@ https://docs.djangoproject.com/en/6.0/topics/auth/
 user model 本身Django有
 expect use exist user model
 如果要改：
+
 1. extends user
-2. create another model : userprofile ,OneToMany 
+2. create another model : userprofile ,OneToMany
 
 ---
-From : 
+
+From :
+
 ```html
-<li class="nav-item mr-3">
+<li class="nav-item mr-3"></li>
 ```
-modify to 
+
+modify to
 
 ```html
 <li {% if 'register' == request.path %} class="nav-item active mr-3" {% else %} class='nav-item me-3' {% endif %}>
 ```
 
 ---
-放dist/login.html 同dist/register.html 入去 templates/accounts/login.html and templates/accounts/register.html 
 
-In register.html : 
+放dist/login.html 同dist/register.html 入去 templates/accounts/login.html and templates/accounts/register.html
+
+In register.html :
+
 ```html
-<form action="{% url 'accounts:register' %}" method = 'POST'>
-{% csrf_token %}
+<form action="{% url 'accounts:register' %}" method="POST">
+  {% csrf_token %}
+</form>
 ```
 
 Sending Message
+
 ```
 https://docs.djangoproject.com/en/6.0/ref/contrib/messages/
-``` 
+```
 
 可以係settings.py打
 
-#### set success 同error : 
+#### set success 同error :
 
 ```python
 from django.contrib.messages import constants as messages
@@ -415,6 +437,7 @@ MESSAGE_TAG = {
 
 4.2 加左，
 3.2 要自己加：
+
 ```python
 DJANGO_APPS = [
     ...
@@ -423,6 +446,7 @@ DJANGO_APPS = [
 ```
 
 than in accounts/views.py
+
 ```python
 from django.shortcuts import redirect, render
 from django.contrib import messages
@@ -459,50 +483,54 @@ def register(request):
 
 ---
 
-手動/templates/partials/_alert.html
+手動/templates/partials/\_alert.html
+
 ```
 https://getbootstrap.com/docs/4.1/components/alerts/
 ```
 
 ```html
-{% if messages %}
-{% for message in messages%}
+{% if messages %} {% for message in messages%}
 <div class="container" id="message">
-  <div class="alert alert-dismissible text-center alert-{{message.tags}}" role="alert">
-    <button class ="close" type="button" data-dismiss="alert">
+  <div
+    class="alert alert-dismissible text-center alert-{{message.tags}}"
+    role="alert"
+  >
+    <button class="close" type="button" data-dismiss="alert">
       <span aria-hidden="true">&times;</span>
     </button>
-    <strong><!-- expression-->
-      {% if message.level =DEFAULT_MESSAGE_LEVELS.ERROR %}Error:{% else %} {{message.tags| title }}{% endif%}
-    </strong>{{message}}
+    <strong
+      ><!-- expression-->
+      {% if message.level =DEFAULT_MESSAGE_LEVELS.ERROR %}Error:{% else %}
+      {{message.tags| title }}{% endif%} </strong
+    >{{message}}
   </div>
 </div>
-{% endfor %}
-{% endif %}
+{% endfor %} {% endif %}
 ```
-
 
 A 要 autocomplete B，B 就一定要有 search_fields。
 
 ---
+
 05/01/2026
-Go to 
+Go to
 
 ```
 config/js/main.js
 ```
+
 Add js:
 
 ```html
-setTimeout(() => { // call back function
-  $('#message').fadeOut("slow"); // 比得'$' , jQuery function
-  // 3秒後漫漫消失 , bootstrap 4.2 version
-},3000);
+setTimeout(() => { // call back function $('#message').fadeOut("slow"); //
+比得'$' , jQuery function // 3秒後漫漫消失 , bootstrap 4.2 version },3000);
 ```
 
 ---
 
 accounts/view.jpy
+
 ```python
 def login(request):
   if request.method == 'POST':
@@ -520,9 +548,11 @@ def login(request):
     return render(request,'accounts/login.html')
 ```
 
---- 
+---
+
 After success register and login :
-move to _navbar.html
+move to \_navbar.html
+
 ```html
         <!-- logout-->
         <li class="nav-item mr-3">
@@ -539,12 +569,12 @@ move to _navbar.html
         </li>
 
         {% else %}
-          <li {% if 'register' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}> 
+          <li {% if 'register' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
             <a class="nav-link" href="{% url 'accounts:register' %}">
             <i class="fas fa-user-plus"></i> Register
             </a>
           </li>
-          <li {% if 'login' in request.path %} class="nav-item active mr-3" {% else %} class='nav-item mr-3' {% endif %}> 
+          <li {% if 'login' in request.path %} class="nav-item active mr-3" {% else %} class='nav-item mr-3' {% endif %}>
             <a class="nav-link" href="{% url 'accounts:login'%}">
             <i class="fas fa-sign-in-alt"></i>Login</a
           >
@@ -554,6 +584,7 @@ move to _navbar.html
 ```
 
 ---
+
 Back to iTerm2 , open new file again :
 
 ```bash
@@ -561,11 +592,12 @@ python manage.py startapp contacts
 ```
 
 open and add urls.py
+
 ```python
 from django.urls import path
 from . import views
 
-ap_name = 'contacts'  
+ap_name = 'contacts'
 
 urlpatterns = [
     path('contact', views.contacts, name='contact'),
@@ -593,7 +625,7 @@ class Contact(models.Model):
   class Meta:
     ordering = ['-contact_date']
     indexes = [models.Index(fields = ['contact_date'])]
-    
+
     def __str__(self):
         return self.name
 ```
@@ -621,7 +653,9 @@ python manage.py migrate
 ```
 
 ---
-listings.html : 
+
+listings.html :
+
 ```html
     </nav>
   </div>
@@ -634,6 +668,7 @@ listings.html :
 ```
 
 ---
+
 06/01/2026
 accounts/views.py
 
@@ -649,75 +684,101 @@ def dashboard(request):
 ```
 
 accounts/dashboard.html
+
 ```html
-    {% include 'partials/_alert.html' %}
-    <section id="dashboard" class="py-4">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            {% comment %} <h2>Welcome {{ account.name  | title }}</h2> {% endcomment %}
-            <h2>Welcome {{ user.username  | title }}</h2>
-            <!-- add for-loop @ 6/1/2026-->
-            {% if contacts%}
-            <p>Here are the clinic listings that you have inquired about</p>
-            <table class="table"> <!-- table : must have head，body -->
-              <thead>
-                <tr>
-                  <th scope="col">Clinic ID</th>
-                  <th scope="col">Clinic</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% comment %} for loop listing  {% endcomment %}
-                {% for contact in contacts %}
-                <tr>
-                  <td>{{contact.listing_id}}</td>
-                  <td>{{ contact.listing | title}}</td>
-                  <td>
-                    <a class="btn btn-light" href="{% url 'listings:listing' contact.listing_id %}">View Listing</a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-            {% else %}
-            <p>You have not made any inquiries yet.</p>
-            {% endif %}
-          </div>
-        </div>
+{% include 'partials/_alert.html' %}
+<section id="dashboard" class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        {% comment %}
+        <h2>Welcome {{ account.name | title }}</h2>
+        {% endcomment %}
+        <h2>Welcome {{ user.username | title }}</h2>
+        <!-- add for-loop @ 6/1/2026-->
+        {% if contacts%}
+        <p>Here are the clinic listings that you have inquired about</p>
+        <table class="table">
+          <!-- table : must have head，body -->
+          <thead>
+            <tr>
+              <th scope="col">Clinic ID</th>
+              <th scope="col">Clinic</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% comment %} for loop listing {% endcomment %} {% for contact in
+            contacts %}
+            <tr>
+              <td>{{contact.listing_id}}</td>
+              <td>{{ contact.listing | title}}</td>
+              <td>
+                <a
+                  class="btn btn-light"
+                  href="{% url 'listings:listing' contact.listing_id %}"
+                  >View Listing</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>You have not made any inquiries yet.</p>
+        {% endif %}
       </div>
-    </section>
-    {% endblock content%}
+    </div>
+  </div>
+</section>
+{% endblock content%}
 ```
 
 ```html
-                  <td>
-                    <a class="btn btn-light" href="{% url 'listings:listing' contact.listing_id %}">View Listing</a>
-                    <button class="btn btn-danger" 
-                    data-url="{% url 'contacts:delete_content' contact.id %}"
-                    {% comment %} delete完要confirm {% endcomment %}
-                    data-toggle="modal" data-target="#deleteConfirmModal"
-                    data-id="{{contact.id}}"
-                    >Delete Listing</button>
-                  </td>
+<td>
+  <a
+    class="btn btn-light"
+    href="{% url 'listings:listing' contact.listing_id %}"
+    >View Listing</a
+  >
+  <button
+    class="btn btn-danger"
+    data-url="{% url 'contacts:delete_content' contact.id %}"
+    {%
+    comment
+    %}
+    delete完要confirm
+    {%
+    endcomment
+    %}
+    data-toggle="modal"
+    data-target="#deleteConfirmModal"
+    data-id="{{contact.id}}"
+  >
+    Delete Listing
+  </button>
+</td>
 ```
 
 #### Django Form
+
 ```
 https://docs.djangoproject.com/en/6.0/topics/forms/
 ```
 
 ---Step of this project:
+
 1. Doctors
 2. Listings
 3. Contacts
 4. Accounts
+
 ---
 
 手動add a file 'forms.py' under folder 'contacts'
 
 form目的：拎野，所以用'from django import forms'，一edit就入database
+
 ```python
 from django import forms
 from .models import Contact
@@ -753,7 +814,7 @@ def edit_contact(request,contact_id):
   else:
     form=ContactForm(instance=contact)
   # if request.method == "POST":
-  
+
   return render(request,'contacts/edit_contact.html',{"form":form , "contact":contact})
 ```
 
@@ -768,6 +829,7 @@ pip install django-widget-tweaks
 ```
 
 Result :
+
 ```bash
 pip freeze
 asgiref==3.11.0
@@ -783,6 +845,7 @@ sqlparse==0.5.4
 ```
 
 Add tag:
+
 ```
 https://django-taggit.readthedocs.io/en/latest/
 ```
@@ -792,6 +855,7 @@ pip install django-taggit
 ```
 
 Result :
+
 ```bash
 pip freeze
 asgiref==3.11.0
@@ -807,7 +871,8 @@ python-dotenv==1.2.1
 sqlparse==0.5.4
 ```
 
-In settings.py : 
+In settings.py :
+
 ```python
 THIRD_PARTY_APPS = ['debug_toolbar','taggit']
 ```
@@ -830,7 +895,8 @@ profession = models.CharField(max_length=200,default='')
 profession = models.ManyToManyField(Subject,blank=True)
 ```
 
-Finally : 
+Finally :
+
 ```python
 class Listing(models.Model):
   doctor = models.ForeignKey(Doctor,on_delete= models.DO_NOTHING)
@@ -854,7 +920,7 @@ class Listing(models.Model):
   list_date = models.DateTimeField(auto_now_add=True)
   def __str__(self):
     return self.title
-  
+
   def tag_list(self):
     return u", ".join(tag.name for tag in self.services.all())
 ```
@@ -904,7 +970,7 @@ class ListingAdminForm(forms.ModelForm):
     label="Select Professionals",
     # display, this time use 大階display
     widget = FilteredSelectMultiple(verbose_name="Professionals",
-                                    is_stacked=False , 
+                                    is_stacked=False ,
                                     attrs={'rows':'5'}
     )
   )
@@ -913,7 +979,7 @@ class ListingAdminForm(forms.ModelForm):
     model=Listing
     fields='__all__'
     widgets = {"services":TagWidget()}
-  
+
 # modify to dropdown function
 # '__' -> double underscore -> private variable -> share def XX: (function)
 # __xyz__ -> Dunder
@@ -983,7 +1049,7 @@ class Listing(models.Model):
   list_date = models.DateTimeField(auto_now_add=True)
   def __str__(self):
     return self.title
-  
+
   def tag_list(self):
     # return u", ".join(tag.name.replace(" ","-") for tag in self.services.all())
     return u", ".join(tag.slug for tag in self.services.all())
@@ -997,56 +1063,64 @@ class Listing(models.Model):
 ```
 
 ---
-Move to templates/listing.html ,Description上面
-```html
-        <!-- profession -->
-        <div>
-        <div class="row mb-5">
-            {% comment %} h4.mr-3.text-secondary{Professions:} {% endcomment %}
-          {% comment %} <div class="col-md-4 d-flex align-items-start"> {% endcomment %}
-          <h4 class="mr-3 text-secondary">Professions:</h4>
-          {% if listing.profession.all %}
-            <ul>
-              {% for profession in listing.profession.all %}
-              <li class="mr-3">
-                <h4>{{profession.name}}</h4>
-              </li>
-              {% endfor %}
-            </ul>
-          {% comment %} follow listings/models.py field name {% endcomment %}
-          {% else %}
-            <p class="text-secondary">No Professions Listed</p>
-          {% endif %}
-        </div>
-        {% comment %} </div> {% endcomment %}
 
-        <!-- Services -->
-        <div class="row mb-5">
-          <h4 class="mr-3 text-secondary">Services :</h4>
-          {% if listings.services.all %}
-          <!-- service tag-->
-          <ul>
-            {% for service in listings.services.all %}
-            <li class="mr-3"><h4>{{service_tag.name | title}}</h4></li>
-            {% endfor %}
-          </ul>
-          {% else %}
-          <h4>No Services</h4>
-          {% endif %}
-        </div>
-      </div>
+Move to templates/listing.html ,Description上面
+
+```html
+<!-- profession -->
+<div>
+  <div class="row mb-5">
+    {% comment %} h4.mr-3.text-secondary{Professions:} {% endcomment %} {%
+    comment %}
+    <div class="col-md-4 d-flex align-items-start">
+      {% endcomment %}
+      <h4 class="mr-3 text-secondary">Professions:</h4>
+      {% if listing.profession.all %}
+      <ul>
+        {% for profession in listing.profession.all %}
+        <li class="mr-3">
+          <h4>{{profession.name}}</h4>
+        </li>
+        {% endfor %}
+      </ul>
+      {% comment %} follow listings/models.py field name {% endcomment %} {%
+      else %}
+      <p class="text-secondary">No Professions Listed</p>
+      {% endif %}
+    </div>
+    {% comment %}
+  </div>
+  {% endcomment %}
+
+  <!-- Services -->
+  <div class="row mb-5">
+    <h4 class="mr-3 text-secondary">Services :</h4>
+    {% if listings.services.all %}
+    <!-- service tag-->
+    <ul>
+      {% for service in listings.services.all %}
+      <li class="mr-3"><h4>{{service_tag.name | title}}</h4></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <h4>No Services</h4>
+    {% endif %}
+  </div>
+</div>
 ```
 
 ---
 
 Move to base.html , add line :
+
 ```html
 <head>
-    <title>BC Health Care {% block title %}{% endblock %} </title>
+  <title>BC Health Care {% block title %}{% endblock %}</title>
 </head>
 ```
 
 Then move to index.html , add line out of **block content**
+
 ```html
 <!-- tab title-->
 <!-- block content外面加，唔好入面加-->
@@ -1056,12 +1130,15 @@ Then move to index.html , add line out of **block content**
 ```
 
 ---
+
 Sending Email , connect Google
+
 ```
 https://docs.djangoproject.com/en/6.0/topics/email/
 ```
 
 contacts/view.py
+
 ```python
 def contacts(request):
   if request=="POST":
@@ -1081,10 +1158,10 @@ def contacts(request):
       contact.save()
       # ==== send mail function
       send_mail(
-          'Clinic Inquiry', # title 
+          'Clinic Inquiry', # title
           'There has been abn inquiry for ' + listing + # content
           ' . Sign into the admin panel for more info', # content
-          'freetousegpt@gmail.com', # from email 
+          'freetousegpt@gmail.com', # from email
           [listing.doctor.email], # to email , need array / list
           fail_silently=False
       )
@@ -1095,6 +1172,7 @@ def contacts(request):
 ```
 
 Move to config/settings.py
+
 ```python
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackup"
 EMAIL_HOST = "smtp.gmail.com"
@@ -1104,7 +1182,8 @@ EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 ```
 
-Move to youtube.com,search 
+Move to youtube.com,search
+
 ```
 How To Set up Gmail SMTP Server
 https://www.youtube.com/watch?v=ZfEK3WP73eY
@@ -1113,6 +1192,7 @@ https://www.youtube.com/watch?v=ZfEK3WP73eY
 ```
 https://myaccount.google.com/
 ```
+
 1. 安全性與登入
 2. 兩步驗證碼
 3. 應用程式密碼
@@ -1121,6 +1201,7 @@ https://myaccount.google.com/
 6. search **應用程式密碼**
 
 Retail email:
+
 ```
 https://resend.com
 ```
@@ -1174,6 +1255,7 @@ Django 就會幫所有舊 user 暫時填住呢個密碼，然後完成 migration
 ---
 
 #### 徹底清空 PostgreSQL 資料庫
+
 PostgreSQL 唔似 SQLite 刪除一個 file 就搞掂，你需要入去資料庫刪除所有 Table。
 
 最快方法（喺 Terminal 執行）： 如果你用緊 psql 或者 Docker，最簡單係重開個 DB。如果唔想重開，請執行：
@@ -1183,6 +1265,7 @@ python manage.py flush
 ```
 
 ---
+
 ```
 https://getbootstrap.com/docs/4.0/getting-started/introduction/
 ```
